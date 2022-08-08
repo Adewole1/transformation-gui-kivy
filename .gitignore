@@ -6,3 +6,4 @@ Old/
 libs/
 .kivy/
 *.spec
+trans_env/
