@@ -1,0 +1,892 @@
+#: import Window kivy.core.window.Window
+
+<ReflectContent>
+	id: reflect_content
+	orientation: "vertical"
+	spacing: "12dp" 
+	size_hint_y: None 
+	height: "100dp" if app.d_type=='2D' else '60dp'
+	
+	MDTextField:
+		id: reflect_axis
+		text: 'X'
+		hint_text: 'Reflection axis'
+		on_focus: 
+			if self.focus: app.manager.current_screen.axis_direction.open() 
+			Window.release_keyboard()
+			
+	MDTextField:
+		id: line_ref
+		text: 'X'
+		hint_text: 'Line reference'
+		on_focus: 
+			if self.focus: app.manager.current_screen.line_ref.open() 
+			Window.release_keyboard()
+		opacity: 0
+		diabled: True
+			
+	MDTextField:
+		id: reflect_plane
+		text: 'XY'
+		hint_text: 'Reflection plane'
+		on_focus: 
+			if self.focus: app.manager.current_screen.plane_direction.open() 
+			Window.release_keyboard()
+
+<ShearContent>
+	id: shear_content
+	orientation: "vertical" 
+	spacing: "8dp" 
+	size_hint_y: None 
+	height: "240dp"
+	
+	MDTextField:
+		id: shear_direction
+		text: 'X'
+		hint_text: 'Direction of shear'
+		on_focus: 
+			if self.focus: app.manager.current_screen.shear_direction.open() 
+			Window.release_keyboard()
+	
+	MDTextField:
+		id: parameter_s
+		hint_text: 'Shear parameter'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: relative
+		text: 'Yes'
+		hint_text: 'Shear relative to another line'
+		on_focus: 
+			if self.focus: app.manager.current_screen.relative.open()
+			Window.release_keyboard()
+			
+	MDTextField:
+		id: parameter_l
+		hint_text: 'Line parameter'
+		input_filter: 'float'
+		input_type: 'number'
+		opacity: 1
+		disabled: False
+
+	MDTextField:
+		id: shear_x
+		hint_text: 'Shear in X-direction'
+		input_type: 'number'
+		input_filter: 'float'
+		opacity: 0 if shear_direction.text=='X' else 1
+		disabled: True if shear_direction.text=='X' else False
+			
+	MDTextField:
+		id: shear_y
+		hint_text: 'Shear in Y-direction'
+		input_type: 'number'
+		input_filter: 'float'
+		opacity: 0 if shear_direction.text=='Y' else 1
+		disabled: True if shear_direction.text=='Y' else False
+
+	MDTextField:
+		id: shear_z
+		hint_text: 'Shear in Z-direction'
+		input_type: 'number'
+		input_filter: 'float'
+		opacity: 0 if shear_direction.text=='Z' else 1
+		disabled: True if shear_direction.text=='Z' else False
+		
+<ScaleContent>
+	id: scale_content
+	orientation: "vertical" 
+	spacing: "12dp" 
+	size_hint_y: None 
+	height: "180dp"
+	
+	MDTextField:
+		id: Sx
+		hint_text: 'Scale in X-direction'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: Sy
+		hint_text: 'Scale in Y-direction'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: Sz
+		hint_text: 'Scale in Z-direction'
+		opacity: 0 if app.d_type=='2D' else 1
+		disabled: True if app.d_type=='2D' else False
+		input_filter: 'float'
+		input_type: 'number'
+
+
+<RotateContent>
+	id: rot_content
+	orientation: "vertical" 
+	spacing: "12dp" 
+	size_hint_y: None 
+	height: "240dp" if app.d_type=='2D' else '180dp'
+	
+	MDTextField:
+		id: angle
+		hint_text: 'Angle of rotation'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: direction
+		text: 'Clockwise'
+		hint_text: 'Direction'
+		on_focus: 
+			if self.focus: app.manager.current_screen.direction.open() 
+			Window.release_keyboard()
+
+	MDTextField:
+		id: axis3
+		text: 'X'
+		hint_text: 'Axis of rotation in 3D'
+		on_focus: 
+			if self.focus: app.manager.current_screen.axis3.open()
+			Window.release_keyboard()
+			
+	MDTextField:
+		id: axis2
+		text: 'Point'
+		hint_text: 'Rotate about a point or origin:'
+		on_focus: 
+			if self.focus: app.manager.current_screen.axis2.open()
+			Window.release_keyboard()
+			
+	MDBoxLayout:
+		id: points
+		orientation: 'horizontal'
+		spacing: '10dp'
+		size_hint_x: None
+		width: axis2.width
+		top: axis2.y-dp(25)
+		
+		MDTextField:
+			id: points1
+			text: '0'
+			hint_text: 'Point X'
+			size_hint_x: 0.45
+			input_filter: 'float'
+			input_type: 'number'
+	
+		MDTextField:
+			id: points2
+			text: '0'
+			hint_text: 'Point Y'
+			size_hint_x: 0.45
+			center_y: points1.center_y
+			pos_hint: {'right': 1}
+			input_filter: 'float'
+			input_type: 'number'
+
+
+<TranslateContent>
+	id: trans_content
+	orientation: "vertical" 
+	spacing: "12dp" 
+	size_hint_y: None 
+	height: "180dp"
+	
+	MDTextField:
+		id: Tx
+		hint_text: 'Translation in X-direction'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: Ty
+		hint_text: 'Translation in Y-direction'
+		input_filter: 'float'
+		input_type: 'number'
+
+	MDTextField:
+		id: Tz
+		hint_text: 'Translation in Z-direction'
+		opacity: 0 if app.d_type=='2D' else 1
+		disabled: True if app.d_type=='2D' else False
+		input_filter: 'float'
+		input_type: 'number'
+	
+
+<ItemForCustomBottomSheet@OneLineIconListItem> 
+    icon: ""
+    
+    IconLeftWidget: 
+        icon: root.icon
+        
+
+<IconListItem>:
+	icon: ''
+	
+	IconLeftWidget:
+		icon: root.icon
+		
+		
+<IconListItem2>:
+	icon: ''
+	
+	IconLeftWidget:
+		icon: root.icon
+        
+
+<TwoLineAvatarIconListItem>:
+	
+	icon: ''
+	
+	IconLeftWidget:
+		icon: app.icons[root.text]
+	
+	IconRightWidget:
+		icon: 'close-circle-outline'
+		on_release: root.parent.parent.parent.parent.parent.remove(root)
+
+
+<TooltipMDIconButton@MDIconButton+MDTooltip>
+        
+<CustomSnackbar>:
+	MDIconButton: 
+		pos_hint: {'center_y': .5} 
+		icon: root.icon 
+		opposite_colors: True
+
+	MDLabel: 
+		id: text_bar 
+		size_hint_y: None 
+		height: self.texture_size[1] 
+		text: root.text 
+		font_size: root.font_size 
+		theme_text_color: 'Custom' 
+		text_color: 'ffffff' 
+		shorten: True 
+		shorten_from: 'right' 
+		pos_hint: {'center_y': .5}
+        
+        
+<ContentCustomSheet@BoxLayout>: 
+    orientation: "vertical" 
+    size_hint_y: None 
+    height: dp(200)
+    elevation: 20
+    
+    MDTopAppBar: 
+        title: 'Transformation Navigation:'
+        md_bg_color: 0.1,0.1,0.1,1
+        elevation: 5
+        left_action_items: [['arrow-left', lambda x: x]]
+        
+    ScrollView:
+        MDGridLayout: 
+            cols: 1
+            adaptive_height: True
+
+            ItemForCustomBottomSheet: 
+                icon: "page-previous" 
+                text: "Transformation type"
+                on_press: 
+                    app.manager.current_screen.custom_sheet.dismiss()
+                    app.manager.current='trans'
+                
+            ItemForCustomBottomSheet: 
+                icon: "exit-to-app"
+                text: "Coordinates"
+                on_press: 
+                    app.manager.current_screen.custom_sheet.dismiss()
+                    app.manager.current='coord'
+
+<Content>:
+	id: content
+	adaptive_height: True
+	
+<SummaryScreen>:
+	FloatLayout:
+
+		MDTopAppBar:
+			id: title
+        	title: "Summary page"
+        	pos_hint: {'top': 1}
+        	type_height: 'small'
+			md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			specific_text_color: [1, 1, 1, 1] if app.theme_cls.theme_style=='Dark' else [0, 0, 0, 1]
+        	elevation: 0
+		
+		MDSwitch:
+			pos_hint: {'right': 0.9, 'top': 0.98}
+			active: True
+			track_color_inactive: [112/255, 128/255, 144/255]
+			icon_active: 'check'
+			icon_inactive: 'close'
+			on_active: app.switch(*args)
+			
+		MDTabs:
+			id: tabs
+			top: title.y
+			#tab_hint_x: True
+			indicator_color: [210/255, 53/255, 8/255, 1]
+			elevation: 5
+			background_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			text_color_active: [0.2, 0.2, 0.2, 1] if app.theme_cls.theme_style=='Light' else [0.9, 0.9, 0.9, 0.9]
+			tab_bar_height: '20dp'
+
+			CoordTab:
+				text: 'Coordinates'
+
+				FloatLayout:
+					id: layout
+
+					MDRaisedButton:
+						id: cord
+						size_hint: 0.3, 0.05
+						pos_hint: {'y':0.1, 'right': 0.475}
+						font_size: dp(12)
+						md_bg_color: 112/255, 128/255, 144/255
+						on_release: root.manager.current='coord'
+
+					MDRaisedButton:
+						id: done1
+						text: 'DONE'
+						size_hint: 0.3, 0.05
+						pos_hint: {'y':0.1, 'x': 0.525}
+						font_size: dp(12)
+						md_bg_color: [210/255, 53/255, 8/255, 1]
+						on_release: root.done()
+
+					MDLabel:
+						id: dimension
+						size_hint_y: None 
+						height: self.texture_size[1]
+						width: self.texture_size[0]
+						text: 'Dimension: '
+						font_size: dp(15) 
+						theme_text_color: 'Custom'
+						text_color: [1, 1, 1, 1] if app.theme_cls.theme_style=='Dark' else [0, 0, 0, 1]
+						pos_hint: {'top': .98, 'x': 0.025}
+						
+					MDLabel:
+						id: D
+						size_hint_y: None 
+						height: self.texture_size[1]
+						width: self.texture_size[0]
+						text: ''
+						bold: True
+						font_size: dp(15) 
+						theme_text_color: 'Custom'
+						text_color: [210/255, 53/255, 8/255, 1]
+						pos_hint: {'x': .21}
+						center_y: dimension.center_y
+						
+						
+					
+			TransTab:
+				text: 'Transformations'
+
+				FloatLayout:
+					ScrollView:
+						MDList:
+							id: container
+
+					MDRaisedButton:
+						id: trans
+						size_hint: 0.3, 0.05
+						pos_hint: {'y':0.1, 'right': 0.475}
+						font_size: dp(12)
+						md_bg_color: 112/255, 128/255, 144/255
+						on_release: root.manager.current='trans'
+
+					MDRaisedButton:
+						id: done2
+						text: 'DONE'
+						size_hint: 0.3, 0.05
+						pos_hint: {'y':0.1, 'x': 0.525}
+						font_size: dp(12)
+						md_bg_color: [210/255, 53/255, 8/255, 1]
+						on_release: root.done()
+
+	
+<TransScreen>:
+    FloatLayout:
+	
+	    MDWidget:
+	        id: top_icon
+	        md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.95,0.95,0.95,1]
+	        radius: dp(15)
+	        size_hint: 0.25, None
+            height: self.width
+	        pos_hint: {'center_x': 0.5, 'top': 0.98}
+	        
+	    MDIcon:
+	        icon: 'shape-plus'
+            theme_text_color: 'Custom'
+            color: [1, 1, 1, 1] if app.theme_cls.theme_style=='Dark' else [0, 0, 0, 1]
+            pos_hint: {'center_x': 0.5}
+            center_y: top_icon.center_y
+            font_size: dp(50)
+            
+        MDSwitch:
+			pos_hint: {'right': 0.9, 'top': 0.98}
+			active: True
+			track_color_inactive: [112/255, 128/255, 144/255]
+			icon_active: 'check'
+			icon_inactive: 'close'
+			on_active: app.switch(*args)
+	    
+		MDLabel:
+			text: 'Graphics Transformation'
+			font_size: dp(18)
+			size_hint: 1, None
+			halign: 'center'
+			pos_hint: {'center_x':0.5, 'center_y':0.8}
+		
+		MDLabel:
+		    id: label1
+			text: 'CALCULATE'
+			font_size: dp(10)
+			bold: True
+			size_hint: 0.95, None
+			pos_hint: {'center_y': 0.7, 'center_x':0.5}
+
+		MDTextField:
+			id: mode
+            text: 'Transformation type'
+			mode: 'fill'
+            icon_right: 'chevron-down'
+            icon_right_color_focus: 210/255, 53/255, 8/255, 1
+            #halign: 'center'
+            valign: 'left'
+			hint_text: 'Transformation'
+			helper_text: 'Choose a step'
+			size_hint: 0.85, 0.07
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			pos_hint: {'x': 0.125}
+			top: label1.y+dp(15)
+			on_focus:
+			    if self.focus: root.menu()
+			    Window.release_keyboard()
+			
+		MDWidget:
+		    id: left
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: 0.1, 0.07
+			pos_hint: {'x': 0.025}
+			top: label1.y+dp(15)
+			
+		MDWidget:
+			id: back1
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    pos_hint: {'x': 0.05}
+		    center_y: left.center_y
+		    
+		MDIcon:
+			icon: 'format-list-bulleted-type'
+			theme_text_color: 'Custom'
+            color: [1, 1, 1, 1]
+		    font_size: dp(25)
+		    center: back1.center
+		    
+		MDRoundFlatIconButton:
+			id: B1
+			text: 'Translate'
+			icon: 'plus-circle'
+			x: left.x
+			top: left.y-dp(20)
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.7,0.7,0.7,1
+			line_color: 112/255, 128/255, 144/255
+			theme_icon_color: 'Custom'
+			icon_color: 112/255, 128/255, 144/255
+			on_release: root.transform(self.text, app.d_type)
+			
+		MDRoundFlatIconButton:
+			id: B2
+			text: 'Rotate'
+			icon: 'plus-circle'
+			pos_hint: {'center_x': 0.5}
+			center_y: B1.center_y
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.7,0.7,0.7,1
+			line_color: 112/255, 128/255, 144/255
+			theme_icon_color: 'Custom'
+			icon_color: 112/255, 128/255, 144/255
+			on_release: root.transform(self.text, app.d_type)
+			
+		MDRoundFlatIconButton:
+			id: B3
+			text: 'Reflect'
+			icon: 'plus-circle'
+			pos_hint: {'right': 0.975}
+			center_y: B1.center_y
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.7,0.7,0.7,1
+			line_color: 112/255, 128/255, 144/255
+			theme_icon_color: 'Custom'
+			icon_color: 112/255, 128/255, 144/255
+			on_release: root.transform(self.text, app.d_type)
+			
+		MDRoundFlatIconButton:
+			id: B4
+			text: 'Scale'
+			icon: 'plus-circle'
+			x: B1.x
+			top: B1.y-dp(10)
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.7,0.7,0.7,1
+			line_color: 112/255, 128/255, 144/255
+			theme_icon_color: 'Custom'
+			icon_color: 112/255, 128/255, 144/255
+			on_release: root.transform(self.text, app.d_type)
+			
+		MDRoundFlatIconButton:
+			id: B5
+			text: 'Shear'
+			icon: 'plus-circle'
+			x: B2.x
+			center_y: B4.center_y
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.7,0.7,0.7,1
+			line_color: 112/255, 128/255, 144/255
+			theme_icon_color: 'Custom'
+			icon_color: 112/255, 128/255, 144/255
+			on_release: root.transform(self.text, app.d_type)
+			
+		MDFillRoundFlatButton:
+			text: 'Clear'
+			x: B3.x
+			center_y: B4.center_y
+			size_hint_x: 0.3
+			font_size: dp(14)
+			text_color: 0.85,0.85,0.85,1
+			on_release: root.reset()
+			
+		MDLabel:
+			id: label2
+			text: 'Transformation list:'
+			bold: True
+			font_size: dp(16)
+			size_hint: 0.95, None
+			pos_hint: {'center_x':0.5}
+			top: B4.y-dp(10)
+			
+		MDList:
+			size_hint: 0.95, 0.45
+			pos_hint: {'center_x': 0.5}
+			#top: label2.y
+			
+			ScrollView:
+				top: label2.y
+				MDGridLayout:
+					id: container
+            		cols: 1
+            		adaptive_height: True
+		
+		MDRaisedButton:
+			text: 'DONE'
+			size_hint: 0.3, 0.05
+			pos_hint: {'y':0.025, 'center_x': 0.5}
+			font_size: dp(12)
+			md_bg_color: 112/255, 128/255, 144/255
+			on_release: root.done()
+
+
+<CordScreen>:
+    FloatLayout:
+		id: layout
+	    MDWidget:
+	        id: top_icon
+	        md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.95,0.95,0.95,1]
+	        radius: dp(15)
+	        size_hint: 0.25, None
+            height: self.width
+	        pos_hint: {'center_x': 0.5, 'top': 0.98}
+	        
+	    MDIcon:
+	        icon: 'shape-plus'
+			theme_text_color: 'Custom'
+            color: [1, 1, 1, 1] if app.theme_cls.theme_style=='Dark' else [0, 0, 0, 1]
+            center: top_icon.center
+            font_size: dp(50)
+			
+		MDSwitch:
+			pos_hint: {'right': 0.9, 'top': 0.98}
+			active: True
+			track_color_inactive: [112/255, 128/255, 144/255]
+			icon_active: 'check'
+			icon_inactive: 'close'
+			on_active: app.switch(*args)
+
+		MDLabel:
+			text: 'Graphics Transformation'
+			font_size: dp(18)
+			size_hint: 1, None
+			halign: 'center'
+			pos_hint: {'center_x':0.5, 'center_y':0.8}
+		
+		MDLabel:
+		    id: label1
+			text: 'CALCULATE'
+			font_size: dp(10)
+			bold: True
+			size_hint: 0.6, None
+			pos_hint: {'center_y': 0.7, 'x':0.025}
+
+		MDTextField:
+			id: mode
+            text: 'Coordinates'
+			mode: 'fill'
+            icon_right: 'chevron-down'
+            icon_right_color_focus: 210/255, 53/255, 8/255, 1
+            halign: 'left'
+			hint_text: 'Transformation'
+			helper_text: 'Choose a step'
+			size_hint: 0.525, 0.07
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			pos_hint: {'x': 0.125}
+			top: label1.y+dp(15)
+			on_focus:
+			    if self.focus: root.menu()
+			    Window.release_keyboard()
+			
+		MDWidget:
+		    id: left
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: 0.1, 0.07
+			pos_hint: {'x': 0.025}
+			top: label1.y+dp(15)
+			
+		MDWidget:
+			id: back1
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    pos_hint: {'x': 0.05}
+		    center_y: left.center_y
+		    
+		MDIcon:
+			icon: 'plus-circle-outline'
+			theme_text_color: 'Custom'
+            color: [1, 1, 1, 1]
+		    font_size: dp(25)
+		    center: back1.center
+		    
+		MDLabel:
+		    id: label2
+			text: 'TYPE'
+			font_size: dp(10)
+			bold: True
+			size_hint: 0.3, None
+			pos_hint: {'center_y': 0.7, 'right':0.975}
+		MDWidget:
+		    id: left2
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: 0.1, 0.07
+			x: label2.x
+			top: label2.y+dp(15)
+			
+		MDTextField:
+			id: mode2
+            text: '3D'
+			mode: 'fill'
+            icon_right: 'chevron-down'
+            icon_right_color_focus: 210/255, 53/255, 8/255, 1
+            halign: 'left'
+			hint_text: ''
+			helper_text: 'Choose a step'
+			size_hint: 0.2, 0.07
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			x: left2.right
+			top: label2.y+dp(15)
+			on_focus:
+				if self.focus: root.menu_type.open()
+				Window.release_keyboard()
+			on_text:
+				app.d_type=self.text
+			
+		MDWidget:
+			id: back2
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    x: left2.x+dp(8)
+		    center_y: left2.center_y
+		    
+		MDIcon:
+			icon: 'plus-circle-outline'
+			theme_text_color: 'Custom'
+			color: [1, 1, 1, 1]
+		    font_size: dp(25)
+		    center: back2.center
+		    
+	    MDLabel:
+		    id: label3
+			text: 'COORDINATES'
+			font_size: dp(10)
+			bold: True
+			multiline: False
+			size_hint: 0.95,None
+			pos_hint: {'center_x':0.5}
+			top: left.y
+			
+		TooltipMDIconButton: 
+			icon: "help-circle-outline"
+			tooltip_text: 'Add the coordinates in the different fields \nthen press the [u]Add coordinate button[/u]. \n[u]Reset button[/u] to clear table data and \n[u]Done button[/u] when finished.'
+			center_y: label3.center_y
+			icon_size: dp(12)
+			tooltip_display_delay: 4
+			x: label3.x+dp(60)
+			#pos_hint: {'x': 0.2}
+			
+		MDWidget:
+		    id: left3
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: 0.1, 0.07
+			pos_hint: {'x': 0.025}
+			top: label3.y+dp(15)
+		
+		MDTextField:
+			id: mode3
+			mode: 'fill'
+            halign: 'right'
+			input_type: 'number'
+			input_filter: 'float'
+			size_hint: [0.2, 0.07]
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			x: left3.right
+			center_y: left3.center_y
+			
+		MDWidget:
+			id: back3
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    x: left3.x+dp(8)
+		    center_y: left3.center_y
+		    
+		MDIcon:
+			icon: 'alpha-x'
+			theme_text_color: 'Custom'
+			color: [1, 1, 1, 1]
+			font_size: dp(30)
+			center: back3.center
+			
+		MDWidget:
+		    id: left4
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: 0.1, 0.07
+			pos_hint: {'x': 0.345}
+			center_y: left3.center_y
+		
+		MDTextField:
+			id: mode4
+			mode: 'fill'
+            halign: 'right'
+			input_type: 'number'
+			input_filter: 'float'
+			size_hint: [0.2, 0.07]
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			#pos_hint: {'x': 0.675}
+			x: left4.right
+			center_y: left3.center_y
+			
+		MDWidget:
+			id: back4
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    x: left4.x+dp(8)
+			center_y: left3.center_y
+		    
+		MDIcon:
+			icon: 'alpha-y'
+			theme_text_color: 'Custom'
+			color: [1, 1, 1, 1]
+			font_size: dp(30)
+			center: back4.center
+			
+		MDWidget:
+		    id: left5
+		    md_bg_color: [0, 0, 0, 1] if app.theme_cls.theme_style=='Dark' else [0.9, 0.9, 0.9, 1]
+			radius: 15, 0, 0, 15
+			size_hint: [0.1, 0.07]
+			pos_hint: {'x': 0.67}
+			center_y: left3.center_y
+						
+		MDTextField:
+			id: mode5
+			mode: 'fill'
+            halign: 'right'
+			input_type: 'number'
+			input_filter: 'float'
+			size_hint: [0.2, 0.07]
+			font_size: dp(20)
+			radius: 0, 15, 15, 0
+			x: left5.right
+			center_y: left3.center_y
+			
+		MDWidget:
+			id: back5
+		    md_bg_color: 210/255, 53/255, 8/255, 1
+		    radius: 20
+		    size_hint: None, 0.04
+		    width: self.height
+		    x: left5.x+dp(8)
+		    center_y: left3.center_y
+		    
+		MDIcon:
+			id: icon5
+			icon: 'alpha-z'
+			theme_text_color: 'Custom'
+			color: [1, 1, 1, 1]
+			font_size: dp(30)
+			center: back5.center
+
+		MDRaisedButton:
+			text: 'Add coordinates'
+			size_hint: 0.3, 0.05
+			pos_hint: {'y': 0.025}
+			x: left3.x
+			font_size: dp(12)
+			md_bg_color: 0,0,0,1
+			on_release: 
+				root.add(mode3.text, mode4.text, mode5.text)
+			
+		MDRaisedButton:
+			text: 'DONE'
+			size_hint: 0.3, 0.05
+			pos_hint: {'y':0.025, 'center_x': 0.5}
+			font_size: dp(12)
+			md_bg_color: 210/255, 53/255, 8/255, 1
+			on_release: root.check()
+			
+		MDRaisedButton:
+			text: 'RESET'
+			size_hint: 0.3, 0.05
+			pos_hint: {'y':0.025, 'right': 0.975}
+			font_size: dp(12)
+			md_bg_color: 112/255, 128/255, 144/255
+			on_release: root.reset()

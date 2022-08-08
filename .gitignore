@@ -1,0 +1,8 @@
+__pycache__/
+Resources/
+.idea/
+.vscode/
+Old/
+libs/
+.kivy/
+*.spec
